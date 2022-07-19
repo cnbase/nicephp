@@ -1,0 +1,25 @@
+{
+    "name": "bzero/nicephp",
+    "description": "A nice php framework.",
+    "homepage": "http://www.nicephp.cn/",
+    "authors": [
+        {
+            "name": "bzero",
+            "email": "i@yyds.ren"
+        }
+    ],
+    "type": "project",
+    "version": "1.0.0",
+    "license": [
+        "MIT"
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "files": [
+            "./nice.php"
+        ]
+    }
+}
