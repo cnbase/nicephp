@@ -23,7 +23,7 @@ Nice::instance()->config([
     //后置回调
     if (!$isMatched) {
         //未匹配到路由规则
-        $Response->setHeader404();
+        $Response->removeHeader()->setHeader404();
         echo $content. '<br/> Created By NicePHP.';
     } else {
         echo $content . '<br/> Created By NicePHP.';

@@ -52,12 +52,44 @@ class Response
     }
 
     /**
+     * 注册输出前Header头处理回调函数
+     * @return bool
+     */
+    public function header_register_callback($func)
+    {
+        if (!is_callable($func)) {
+            return false;
+        }
+        return header_register_callback($func);
+    }
+
+    /**
      * 添加 Header 头
      * @return self
      */
     public function addHeader($header, $replace = true, $response_code = 200)
     {
         array_push($this->HEADER, [$header, $replace, $response_code]);
+        return $this;
+    }
+
+    /**
+     * 删除某个 Header 头
+     * @return self
+     */
+    public function deleteHeader($name)
+    {
+        $name and header_remove($name);
+        return $this;
+    }
+
+    /**
+     * 移除所有header头
+     * @return self
+     */
+    public function removeHeader()
+    {
+        header_remove();
         return $this;
     }
 
