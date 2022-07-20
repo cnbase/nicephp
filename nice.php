@@ -130,7 +130,7 @@ class Nice
         /**
          * 前置函数处理
          */
-        call_user_func($this->beforeRunFunc);
+        is_callable($this->beforeRunFunc) and call_user_func($this->beforeRunFunc);
         /**
          * 路由解析
          * 1. 加载路由配置
