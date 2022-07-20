@@ -68,9 +68,9 @@ class Response
     {
         if ($this->beforeOutputFunc) {
             $response = call_user_func($this->beforeOutputFunc);
+            echo $response;
         }
         $this->setHeader();
-        echo $response;
     }
 
     /**
