@@ -63,16 +63,16 @@ class Response
 
     /**
      * 输出数据
-     * @param $response 路由解析获得的结果，包含404内容
+     * @param $content 路由解析获得的结果，包含404内容
      * @param $isMatched 是否匹配到路由
      */
-    public function send($response,$isMatched)
+    public function send($content,$isMatched)
     {
         if ($this->beforeOutputFunc) {
-            $response = call_user_func($this->beforeOutputFunc,$response,$isMatched);
+            $content = call_user_func($this->beforeOutputFunc,$this,$content,$isMatched);
         }
         $this->setHeader();
-        echo $response;
+        echo $content;
     }
 
     /**
@@ -103,6 +103,17 @@ class Response
                 $this->addHeader('Content-Type: ' . self::CONTENT_TYPE[$headerStr]);
             }
         }
+    }
+
+    /**
+     * 设置 404 header头
+     * @return self
+     */
+    public function setHeader404()
+    {
+        header(($_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.1') . ' 404 Not Found');
+        header("Status: 404 Not Found");
+        return $this;
     }
 
     /**

@@ -19,14 +19,13 @@ Nice::instance()->config([
 ])->onBeforeRun(function () {
     //前置回调
     \nice\Response::instance()->setContentType('html');
-})->onAfterRun(function ($response,$isMatched) {
+})->onAfterRun(function ($Response,$content,$isMatched) {
     //后置回调
     if (!$isMatched) {
         //未匹配到路由规则
-        header(($_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.1') . ' 404 Not Found');
-        header("Status: 404 Not Found");
-        echo $response. '<br/> Created By NicePHP.';
+        $Response->setHeader404();
+        echo $content. '<br/> Created By NicePHP.';
     } else {
-        echo $response . '<br/> Created By NicePHP.';
+        echo $content . '<br/> Created By NicePHP.';
     }
 })->run();
