@@ -141,7 +141,7 @@ class Nice
         /**
          * 后置函数处理 && 页面数据输出
          */
-        Response::instance()->setting($this->afterRunFunc)->send();
+        Response::instance()->setting($this->afterRunFunc)->send($Router->response(),$Router->isMatched());
         /**
          * ===冲刷输出缓冲区===
          */

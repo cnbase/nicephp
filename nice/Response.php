@@ -63,14 +63,16 @@ class Response
 
     /**
      * 输出数据
+     * @param $response 路由解析获得的结果，包含404内容
+     * @param $isMatched 是否匹配到路由
      */
-    public function send()
+    public function send($response,$isMatched)
     {
         if ($this->beforeOutputFunc) {
-            $response = call_user_func($this->beforeOutputFunc);
-            echo $response;
+            $response = call_user_func($this->beforeOutputFunc,$response,$isMatched);
         }
         $this->setHeader();
+        echo $response;
     }
 
     /**
