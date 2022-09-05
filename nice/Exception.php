@@ -209,6 +209,6 @@ class Exception
      */
     private function isAjax()
     {
-        return ($xmlhttprequest = $this->SERVER['HTTP_X_REQUEST_WITH']) && 'xmlhttprequest' == strtolower($xmlhttprequest) ? true : false;
+        return ($xmlhttprequest = ($_SERVER['HTTP_X_REQUEST_WITH']??'')) && 'xmlhttprequest' == strtolower($xmlhttprequest) ? true : false;
     }
 }
