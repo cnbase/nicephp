@@ -33,6 +33,6 @@ class Request
      */
     public function isAjax()
     {
-        return ($xmlhttprequest = $this->SERVER['HTTP_X_REQUEST_WITH']) && 'xmlhttprequest' == strtolower($xmlhttprequest) ? true : false;
+        return ($xmlhttprequest = ($this->SERVER['HTTP_X_REQUEST_WITH']??'')) && 'xmlhttprequest' == strtolower($xmlhttprequest) ? true : false;
     }
 }
