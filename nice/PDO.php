@@ -91,7 +91,7 @@ class PDO
     public function query($sql, $bindValue = [], $dataType = [], $fetchStyle = 'array')
     {
         $this->PDOPrepare($sql)->PDOStatementExecute($bindValue, $dataType);
-        return $this->PDOStatement->fetchAll(self::FETCH_STYLE[$fetchStyle] ?? NULL);
+        return $this->PDOStatement->fetchAll(self::FETCH_STYLE[strtoupper($fetchStyle)] ?? NULL);
     }
 
     /**
@@ -100,7 +100,7 @@ class PDO
     public function one($sql, $bindValue = [], $dataType = [], $fetchStyle = 'array')
     {
         $this->PDOPrepare($sql)->PDOStatementExecute($bindValue, $dataType);
-        return $this->PDOStatement->fetch(self::FETCH_STYLE[$fetchStyle] ?? NULL);
+        return $this->PDOStatement->fetch(self::FETCH_STYLE[strtoupper($fetchStyle)] ?? NULL);
     }
 
     /**
