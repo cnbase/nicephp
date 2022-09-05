@@ -86,7 +86,6 @@ class PDO
     /**
      * 查询 SQL 语句
      * SELECT
-     * @return bool
      */
     public function query($sql, $bindValue = [], $dataType = [], $fetchStyle = 'array')
     {
