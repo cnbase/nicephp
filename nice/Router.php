@@ -36,6 +36,11 @@ class Router
     private $PATH_INFO;
 
     /**
+     * 当前请求URI - 去除入口文件
+     */
+    private $URI;
+
+    /**
      * 匹配成功的 - 路由规则
      */
     private $MATCHED_ROUTE;
@@ -89,6 +94,15 @@ class Router
             $this->addRoutes($tmpRoutes);
         }
 
+        /**
+         * 处理URI
+         */
+        if (strpos($this->PATH_INFO, '/' . $this->INDEX_FILE) === 0) {
+            $this->URI = substr($this->PATH_INFO, strlen('/' . $this->INDEX_FILE));
+        } else {
+            $this->URI = $this->PATH_INFO;
+        }
+
         return $this;
     }
 
@@ -99,6 +113,22 @@ class Router
     public function isMatched()
     {
         return $this->MATCHED_ROUTE?TRUE:FALSE;
+    }
+
+    /**
+     * 获取 PATH_INFO
+     */
+    public function pathinfo()
+    {
+        return $this->PATH_INFO;
+    }
+
+    /**
+     * 获取URI
+     */
+    public function uri()
+    {
+        return $this->URI;
     }
 
     /**
@@ -174,12 +204,8 @@ class Router
      */
     public function dispatch()
     {
-        $rawPath = $this->PATH_INFO;
-        if (strpos($rawPath, '/' . $this->INDEX_FILE) === 0) {
-            $lowerPath = strtolower(substr($rawPath, strlen('/' . $this->INDEX_FILE)));
-        } else {
-            $lowerPath = strtolower($rawPath);
-        }
+        $lowerPath = strtolower($this->URI);
+
         /**
          * 1. 优先匹配具体 REQUEST_METHOD
          */
