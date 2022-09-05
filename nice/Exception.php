@@ -172,7 +172,7 @@ class Exception
                     //自身不记录
                     continue;
                 }
-                $content .= $trace['file'] ? "\n" . $trace['file'] . " (" . $trace['line'] . ")\n" : "";
+                $content .= isset($trace['file']) ? "\n" . $trace['file'] . " (" . $trace['line'] . ")\n" : "";
                 $content .= "Function: " . $trace['function'] . "\n";
                 $content .= "----------Args Json Begin----------\n";
                 $content .= json_encode($trace['args']) . "\n";
