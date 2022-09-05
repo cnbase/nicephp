@@ -71,7 +71,7 @@ class Nice
     public function config($config = [])
     {
         isset($config['APP_DIR']) and $this->APP_DIR = $config['APP_DIR'];
-        isset($config['MODULE_NAME']) and $this->APP_DIR = $config['MODULE_NAME'];
+        isset($config['MODULE_NAME']) and $this->MODULE_NAME = $config['MODULE_NAME'];
         isset($config['INDEX_FILE']) and $this->INDEX_FILE = $config['INDEX_FILE'];
         return $this;
     }
