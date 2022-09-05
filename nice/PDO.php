@@ -190,10 +190,10 @@ class PDO
                     $kType = $dataTypeList[$dataType[$k]] ?? null;
                 }
                 if (is_int($k)) {
-                    $bindRes = $this->PDOStatement->bindValue($k + 1, $v, $kType ?: \PDO::PARAM_STR);
+                    $bindRes = $this->PDOStatement->bindValue($k + 1, $v, $kType ?? \PDO::PARAM_STR);
                 }
                 if (is_string($k)) {
-                    $bindRes = $this->PDOStatement->bindValue($k, $v, $kType ?: \PDO::PARAM_STR);
+                    $bindRes = $this->PDOStatement->bindValue($k, $v, $kType ?? \PDO::PARAM_STR);
                 }
                 if ($bindRes === FALSE) {
                     $errorInfo = $this->PDOStatement->errorInfo();
