@@ -19,11 +19,11 @@ Nice::instance()->config([
 ])->onBeforeRun(function () {
     //前置回调
     \nice\Response::instance()->setContentType('html');
-})->onBeforeSend(function ($content, $isMatched, $Response) {
+})->onBeforeSend(function ($content, $isMatched) {
     //后置回调
     if (!$isMatched) {
         //未匹配到路由规则
-        $Response->removeHeader()->setHeader404();
+        \nice\Response::instance()->removeHeader()->setHeader404();
         return $content . '<br/> Created By NicePHP.';
     } else {
         return $content . '<br/> Created By NicePHP.';
