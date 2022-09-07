@@ -9,7 +9,7 @@ include '../nice.php';
  * 自定义 404 回调函数
  * 比模板文件优先级高
  */
-\nice\Router::instance()->setNotFoundFunc(function(){
+\nice\Router::instance()->setNotFoundFunc(function () {
     return '404';
 });
 
@@ -19,12 +19,12 @@ Nice::instance()->config([
 ])->onBeforeRun(function () {
     //前置回调
     \nice\Response::instance()->setContentType('html');
-})->onAfterRun(function ($Response,$content,$isMatched) {
+})->onBeforeSend(function ($content, $isMatched, $Response) {
     //后置回调
     if (!$isMatched) {
         //未匹配到路由规则
         $Response->removeHeader()->setHeader404();
-        echo $content. '<br/> Created By NicePHP.';
+        echo $content . '<br/> Created By NicePHP.';
     } else {
         echo $content . '<br/> Created By NicePHP.';
     }

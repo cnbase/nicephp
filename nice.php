@@ -42,11 +42,11 @@ class Nice
     private $beforeRunFunc;
 
     /**
-     * 后置回调函数
+     * 输出前回调函数
      * 路由解析完成执行，如响应数据的统一格式处理等场景
      * @var callable
      */
-    private $afterRunFunc;
+    private $beforeSendFunc;
 
     /**
      * @return static
@@ -89,15 +89,15 @@ class Nice
     }
 
     /**
-     * 设置后置回调函数
+     * 设置输出前回调函数
      * @return self
      */
-    public function onAfterRun($func)
+    public function onBeforeSend($func)
     {
         if (!is_callable($func)) {
-            throw new \ErrorException('AfterRunFunc (function) not callable.');
+            throw new \ErrorException('BeforeSendFunc (function) not callable.');
         }
-        $this->afterRunFunc = $func;
+        $this->beforeSendFunc = $func;
         return $this;
     }
 
@@ -139,13 +139,21 @@ class Nice
             $Router = Router::instance()->setting($this->INDEX_FILE, $this->APP_DIR, $this->MODULE_NAME);
             $Router->dispatch();
             /**
-             * 后置函数处理 && 页面数据输出
+             * 输出前函数处理
              */
-            Response::instance()->setting($this->afterRunFunc)->send($Router->response(),$Router->isMatched());
+            if (is_callable($this->beforeSendFunc)) {
+                $content = call_user_func($this->beforeSendFunc, $Router->response(), $Router->isMatched());
+            } else {
+                $content = $Router->response();
+            }
         } catch (\nice\OutputException $e) {
             //捕获并输出主动抛出的异常
-            echo $e->getMessage();
+            $content = $e->getMessage();
         }
+        /**
+         * 页面数据输出
+         */
+        Response::instance()->send($content);
         /**
          * ===冲刷输出缓冲区===
          */

@@ -16,7 +16,7 @@ class Response
      * 输出前 - 回调函数
      * @var callable
      */
-    private $beforeOutputFunc;
+    private $beforeSendFunc;
 
     /**
      * http header头
@@ -38,18 +38,6 @@ class Response
         'json'  =>  'application/json; charset=utf-8',
         'xml'   =>  'text/xml',
     ];
-
-    /**
-     * 初始化
-     * @return self
-     */
-    public function setting($beforeOutputFunc = null)
-    {
-        if (is_callable($beforeOutputFunc)) {
-            $this->beforeOutputFunc = $beforeOutputFunc;
-        }
-        return $this;
-    }
 
     /**
      * 注册输出前Header头处理回调函数
@@ -95,14 +83,9 @@ class Response
 
     /**
      * 输出数据
-     * @param $content 路由解析获得的结果，包含404内容
-     * @param $isMatched 是否匹配到路由
      */
-    public function send($content,$isMatched)
+    public function send($content)
     {
-        if ($this->beforeOutputFunc) {
-            $content = call_user_func($this->beforeOutputFunc,$this,$content,$isMatched);
-        }
         $this->setHeader();
         echo $content;
     }
