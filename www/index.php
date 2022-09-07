@@ -24,8 +24,8 @@ Nice::instance()->config([
     if (!$isMatched) {
         //未匹配到路由规则
         $Response->removeHeader()->setHeader404();
-        echo $content . '<br/> Created By NicePHP.';
+        return $content . '<br/> Created By NicePHP.';
     } else {
-        echo $content . '<br/> Created By NicePHP.';
+        return $content . '<br/> Created By NicePHP.';
     }
 })->run();
