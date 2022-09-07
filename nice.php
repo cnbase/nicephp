@@ -142,7 +142,7 @@ class Nice
              * 后置函数处理 && 页面数据输出
              */
             Response::instance()->setting($this->afterRunFunc)->send($Router->response(),$Router->isMatched());
-        } catch (\nice\OutputExcepiton $e) {
+        } catch (\nice\OutputException $e) {
             //捕获并输出主动抛出的异常
             echo $e->getMessage();
         }

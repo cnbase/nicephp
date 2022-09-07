@@ -4,4 +4,4 @@
  */
 namespace nice;
 
-class OutputExcepiton extends \Exception {}
+class OutputException extends \Exception {}
