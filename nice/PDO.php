@@ -16,7 +16,13 @@ class PDO
      * PDO 连接实例
      * @var \PDO
      */
-    private $PDO;
+    private $_PDO;
+
+    /**
+     * 当前连接信息
+     * @var string
+     */
+    private $_PDO_INFO;
 
     /**
      * PDOStatement 预处理实例
@@ -50,9 +56,15 @@ class PDO
             throw new \ErrorException('PDO dsn parameter is illegal.');
         }
         $port = $port ?: 3306;
-        $dsn = "mysql:dbname={$database};host={$host};port={$port}";
         try {
-            $this->PDO = new \PDO($dsn, $username, $password, $options);
+            $dsn = "mysql:dbname={$database};host={$host};port={$port}";
+            $pdo_info = $dsn.';username='.$username;
+            if ($this->_PDO && $this->_PDO_INFO == $pdo_info) {
+                return $this;
+            } else {
+                $this->_PDO_INFO = $pdo_info;
+                $this->_PDO = new \PDO($dsn, $username, $password, $options);
+            }
             return $this;
         } catch (\PDOException $e) {
             throw new \ErrorException('PDO connection failed.');
