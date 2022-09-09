@@ -89,7 +89,7 @@ class PDO
      */
     public function lastInsertId()
     {
-        if (!$this->PDO || !($this->PDO instanceof \PDO)) {
+        if (!$this->_PDO || !($this->_PDO instanceof \PDO)) {
             throw new \ErrorException('PDO not an PDO objcect.');
         }
         return $this->PDO->lastInsertId();
@@ -120,11 +120,11 @@ class PDO
      */
     public function beginTransaction()
     {
-        if (!$this->PDO || !($this->PDO instanceof \PDO)) {
+        if (!$this->_PDO || !($this->_PDO instanceof \PDO)) {
             throw new \ErrorException('PDO not an PDO objcect.');
         }
-        if (!$this->PDO->inTransaction()) {
-            return $this->PDO->beginTransaction();
+        if (!$this->_PDO->inTransaction()) {
+            return $this->_PDO->beginTransaction();
         }
         return true;
     }
@@ -135,8 +135,8 @@ class PDO
      */
     public function commit()
     {
-        if ($this->PDO->inTransaction()) {
-            return $this->PDO->commit();
+        if ($this->_PDO->inTransaction()) {
+            return $this->_PDO->commit();
         }
         return false;
     }
@@ -147,8 +147,8 @@ class PDO
      */
     public function rollback()
     {
-        if ($this->PDO->inTransaction()) {
-            return $this->PDO->rollBack();
+        if ($this->_PDO->inTransaction()) {
+            return $this->_PDO->rollBack();
         }
         return false;
     }
@@ -173,10 +173,10 @@ class PDO
     private function PDOPrepare($sql)
     {
         try {
-            if (!$this->PDO || !($this->PDO instanceof \PDO)) {
+            if (!$this->_PDO || !($this->_PDO instanceof \PDO)) {
                 throw new \ErrorException('PDO not an PDO objcect.');
             }
-            $PDOStatement = $this->PDO->prepare($sql);
+            $PDOStatement = $this->_PDO->prepare($sql);
             if ($PDOStatement === FALSE) {
                 throw new \ErrorException('PDO prepare failed.');
             }
