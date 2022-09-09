@@ -168,6 +168,14 @@ class Request
 
         return $ip[$type];
     }
+    
+    /**
+     * 获取UA
+     */
+    public function ua()
+    {
+        return $this->server('HTTP_USER_AGENT');
+    }
 
     /**
      * 获取过滤后的提交值
