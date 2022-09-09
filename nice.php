@@ -119,7 +119,7 @@ class Nice
          * 注册框架自定义异常处理类
          */
         $Exception = Exception::instance();
-        $Exception->setting($Config->get['error'], $Config->get('trace'));
+        $Exception->setting($Config->get('error'), $Config->get('trace'));
         set_exception_handler([$Exception, 'handleException']);
         set_error_handler([$Exception, 'handleError']);
         /**
