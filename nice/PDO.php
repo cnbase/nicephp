@@ -92,7 +92,7 @@ class PDO
         if (!$this->_PDO || !($this->_PDO instanceof \PDO)) {
             throw new \ErrorException('PDO not an PDO objcect.');
         }
-        return $this->PDO->lastInsertId();
+        return $this->_PDO->lastInsertId();
     }
 
     /**
