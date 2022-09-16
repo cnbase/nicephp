@@ -79,13 +79,23 @@ class Uploader
     }
 
     /**
+     * 获取某个上传文件信息
+     * @param $inputName
+     * @param $index
+     */
+    public function file($inputName, $index = 0)
+    {
+        return $this->FILES[$inputName][$index] ?? null;
+    }
+
+    /**
      * 获取某个文件大小 - 默认第一个
      * @param $inputName
      * @param $index
      */
     public function size($inputName, $index = 0)
     {
-        $file = $this->FILES[$inputName][$index] ?? null;
+        $file = $this->file($inputName,$index);
         return $file['size'] ?? 0;
     }
 
@@ -94,7 +104,7 @@ class Uploader
      */
     public function md5($inputName, $index = 0)
     {
-        $file = $this->FILES[$inputName][$index] ?? null;
+        $file = $this->file($inputName,$index);
         return $file ? md5_file($file['tmp_name']) : '';
     }
 
@@ -103,7 +113,7 @@ class Uploader
      */
     public function sha1($inputName, $index = 0)
     {
-        $file = $this->FILES[$inputName][$index] ?? null;
+        $file = $this->file($inputName,$index);
         return $file ? sha1_file($file['tmp_name']) : '';
     }
 
@@ -112,7 +122,7 @@ class Uploader
      */
     public function hash($algo, $inputName, $index = 0)
     {
-        $file = $this->FILES[$inputName][$index] ?? null;
+        $file = $this->file($inputName,$index);
         return $file ? hash($algo, $file['tmp_name']) : '';
     }
 
@@ -128,10 +138,10 @@ class Uploader
      */
     public function move($inputName, $targetDir, $index = 0, $cover = true, $rename = 0, $fileName = null)
     {
-        if (!isset($this->FILES[$inputName]) || !isset($this->FILES[$inputName][$index])) {
+        $file = $this->file($inputName,$index);
+        if (!$file) {
             return $this->returnError('文件不存在');
         }
-        $file = $this->FILES[$inputName][$index];
         if ($file['is_uploaded'] == false) {
             return $this->returnError('非法上传文件,无法移动');
         }
