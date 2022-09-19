@@ -192,6 +192,9 @@ class Request
             case 'REQUEST':
                 $data = $_REQUEST;
                 break;
+            case 'JSON':
+                $data = json_decode(file_get_contents('php://input'),true);
+                $data = $data?:[];
             default:
                 $data = [];
         }
@@ -238,5 +241,13 @@ class Request
     public function request($name = null, $default = null, $filter = '')
     {
         return $this->_get('REQUEST', $name, $default, $filter);
+    }
+
+    /**
+     * 获取 JSON字符串 参数
+     */
+    public function json($name = null,$default = null, $filter = '')
+    {
+        return $this->_get('JSON', $name, $default, $filter);
     }
 }
