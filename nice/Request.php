@@ -22,10 +22,16 @@ class Request
      */
     private $SERVER;
 
+    /**
+     * 流式数据
+     */
+    private $INPUT;
+
     public function __construct()
     {
         $this->METHOD = strtoupper($_SERVER['REQUEST_METHOD']);
         $this->SERVER = $_SERVER;
+        $this->INPUT = file_get_contents('php://input');
     }
 
     /**
@@ -192,9 +198,6 @@ class Request
             case 'REQUEST':
                 $data = $_REQUEST;
                 break;
-            case 'JSON':
-                $data = json_decode(file_get_contents('php://input'),true);
-                $data = $data?:[];
             default:
                 $data = [];
         }
@@ -248,6 +251,35 @@ class Request
      */
     public function json($name = null,$default = null, $filter = '')
     {
-        return $this->_get('JSON', $name, $default, $filter);
+        static $data = [];
+        if (!$data) {
+            $data = $this->INPUT ? json_decode($this->INPUT,true) : [];
+        }
+        if ($name === null) {
+            return $data;
+        }
+        $tmp = null;
+        foreach (explode('.', $name) as $val) {
+            if (!$tmp) {
+                if (isset($data[$val])) {
+                    $tmp = $data[$val];
+                } else {
+                    $tmp = $default;
+                    break;
+                }
+            } else {
+                if (isset($tmp[$val])) {
+                    $tmp = $tmp[$val];
+                }
+            }
+        }
+        if ($filter && is_callable($filter)) {
+            if (is_array($tmp)) {
+                $tmp = array_map($filter, $tmp);
+            } else {
+                $tmp = call_user_func($filter, $tmp);
+            }
+        }
+        return $tmp;
     }
 }
